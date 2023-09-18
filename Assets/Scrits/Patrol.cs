@@ -5,7 +5,7 @@ public class Patrol : MonoBehaviour
 
     public Transform[] waypoints;
     private int _currentWaypointIndex = 0;
-    private float _speed = 25f;
+    private float _speed = 35f;
 
     private float _waitTime = 0f; // in seconds
     private float _waitCounter = 0f;
