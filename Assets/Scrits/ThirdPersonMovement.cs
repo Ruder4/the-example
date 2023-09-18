@@ -2,31 +2,43 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ThirdPersonMovement : MonoBehaviour
+public class PlayerMovement : MonoBehaviour
 {
-    public CharacterController controller;
-    public Transform cam;
+	public Transform cameraTransform;
+	CharacterController controller;
 
-    public float speed = 6f;
+	public float mouseSensitivity = 100f;
+	public float playerSpeed = 10f;
+	float cameraRotation = 0f;
 
-    public float turnSmoothTime = 0.1f;
-    float turnSmoothVelocity;
+	private void Start()
+	{
+		controller = GetComponent<CharacterController>();
+		Cursor.visible = false;
+	}
 
-    // Update is called once per frame
-    void Update()
-    {
-        float horizontal = Input.GetAxisRaw("Horizontal");
-        float vertical = Input.GetAxisRaw("Vertical");
-        Vector3 direction = new Vector3(horizontal, 0f, vertical).normalized;
+	void CameraHandler()
+	{
+		float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
+		float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
+		cameraRotation -= mouseY;
+		cameraRotation = Mathf.Clamp(cameraRotation, -90f, 90f);
 
-        if (direction.magnitude >= 0.1f)
-        {
-            float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + cam.eulerAngles.y;
-            float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
-            transform.rotation = Quaternion.Euler(0f, angle, 0f);
+		cameraTransform.localRotation = Quaternion.Euler(cameraRotation, 0f, 0f);
+		controller.transform.Rotate(Vector3.up * mouseX);
+	}
+	void MovementHandler()
+	{
+		float playerX = Input.GetAxis("Horizontal");
+		float playerY = Input.GetAxis("Vertical");
+		
+		Vector3 move = controller.transform.right * playerX + controller.transform.forward * playerY;
+		controller.Move(move * playerSpeed * Time.deltaTime);
+	}
 
-            Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
-            controller.Move(moveDir.normalized * speed * Time.deltaTime);
-        }
-    }
+	private void Update()
+	{
+		CameraHandler();
+		MovementHandler();
+	}
 }
