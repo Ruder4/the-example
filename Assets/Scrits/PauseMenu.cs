@@ -5,14 +5,19 @@ using UnityEngine;
 public class PauseMenu : MonoBehaviour
 {
     public static bool isPaused = false;
+    private bool inOptions = false;
     public GameObject pauseMenuUI;
+    public GameObject optionsMenuUI;
 
     // Update is called once per frame
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
 		{
-            if (isPaused)
+            if (inOptions)
+			{
+                OptionsMenuClose();
+			} else if (isPaused)
 			{
                 ResumeGame();
 			} else
@@ -36,9 +41,18 @@ public class PauseMenu : MonoBehaviour
         isPaused = true;
 	}
 
-    public void OptionsMenu()
+    public void OptionsMenuOpen()
 	{
+        pauseMenuUI.SetActive(false);
+        optionsMenuUI.SetActive(true);
+        inOptions = true;
+	}
 
+    public void OptionsMenuClose()
+	{
+        optionsMenuUI.SetActive(false);
+        pauseMenuUI.SetActive(true);
+        inOptions = false;
 	}
 
     public void QuitGame()
