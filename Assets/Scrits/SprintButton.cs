@@ -8,7 +8,7 @@ public class GrayOutUI : MonoBehaviour
     private bool isGrayedOut = false;
 
     private void Start()
-    {
+    { 
         // Get the Image component attached to the UI element.
         uiImage = GetComponent<Image>();
 
