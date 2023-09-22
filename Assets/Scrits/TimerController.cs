@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class TimerController : MonoBehaviour
 {
-    public float timeRemaining = 0;
-    public bool timeIsRunning = true;
+    private float timeElapsed = 0;
+    private bool timeIsRunning = false;
     public TMP_Text timeText;
 
-   
+    
 
     void Start()
     {
@@ -21,20 +22,28 @@ public class TimerController : MonoBehaviour
     {
         if (timeIsRunning)
         {
-            if (timeRemaining >= 0)
-            {
-                timeRemaining += Time.deltaTime;
-                DisplayTime(timeRemaining);
-            }
+           timeElapsed += Time.deltaTime;
+           DisplayTime();
         }
     }
 
-    void DisplayTime(float timeToDisplay)
+    void DisplayTime()
     {
-        timeToDisplay += 1;
-        float minutes = Mathf.FloorToInt(timeToDisplay / 60);
-        float seconds = Mathf.FloorToInt(timeToDisplay % 60);
+        float minutes = getMinutes(timeElapsed);
+        float seconds = getSeconds(timeElapsed);
         timeText.text = string.Format("{0:0}:{1:00}", minutes, seconds);
-
     }
+
+    public float getMinutes(float timeToDisplay)
+    {
+        float minutes = Mathf.FloorToInt(timeToDisplay / 60);
+        return minutes;
+    }
+
+    float getSeconds(float timeToDisplay)
+    {
+        float seconds = Mathf.FloorToInt(timeToDisplay % 60);
+        return seconds;
+    }
+
 }

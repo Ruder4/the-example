@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class Patrol : MonoBehaviour
 {
+    private float timeElapsed = 0;
 
     public Transform[] waypoints;
     private int _currentWaypointIndex = 0;
@@ -13,6 +14,12 @@ public class Patrol : MonoBehaviour
 
     private void Update()
     {
+        timeElapsed += Time.deltaTime;
+        if(Mathf.FloorToInt(timeElapsed / 60) >= 2)
+        {
+            _speed = 35f;
+        }
+       
         if (_waiting)
         {
             _waitCounter += Time.deltaTime;
@@ -20,7 +27,7 @@ public class Patrol : MonoBehaviour
                 return;
             _waiting = false;
         }
-
+        
         Transform wp = waypoints[_currentWaypointIndex];
         if (Vector3.Distance(transform.position, wp.position) < 0.01f)
         {
