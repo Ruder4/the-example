@@ -2,7 +2,8 @@ using UnityEngine;
 
 public class Patrol : MonoBehaviour
 {
-    private float timeElapsed = 0;
+    private float timeRemaining = 300;
+    private bool hasTimeRemaining = true;
 
     public Transform[] waypoints;
     private int _currentWaypointIndex = 0;
@@ -14,10 +15,15 @@ public class Patrol : MonoBehaviour
 
     private void Update()
     {
-        timeElapsed += Time.deltaTime;
-        if(Mathf.FloorToInt(timeElapsed / 60) >= 2)
+        if(hasTimeRemaining == true) 
+        { 
+            timeRemaining -= Time.deltaTime;
+        }
+        
+        if(Mathf.FloorToInt(timeRemaining / 60) <= 1)
         {
             _speed = 35f;
+            hasTimeRemaining = false;
         }
        
         if (_waiting)

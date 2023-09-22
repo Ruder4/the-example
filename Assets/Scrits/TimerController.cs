@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 
 public class TimerController : MonoBehaviour
 {
-    private float timeElapsed = 0;
+    private float timeRemaining = 300;
     private bool timeIsRunning = false;
     public TMP_Text timeText;
 
@@ -20,17 +20,22 @@ public class TimerController : MonoBehaviour
 
     void Update()
     {
-        if (timeIsRunning)
+        if (timeIsRunning == true)
         {
-           timeElapsed += Time.deltaTime;
+           timeRemaining -= Time.deltaTime;
            DisplayTime();
+        }
+
+        if(timeRemaining <= 1)
+        {
+            timeIsRunning = false;
         }
     }
 
     void DisplayTime()
     {
-        float minutes = getMinutes(timeElapsed);
-        float seconds = getSeconds(timeElapsed);
+        float minutes = getMinutes(timeRemaining);
+        float seconds = getSeconds(timeRemaining);
         timeText.text = string.Format("{0:0}:{1:00}", minutes, seconds);
     }
 
