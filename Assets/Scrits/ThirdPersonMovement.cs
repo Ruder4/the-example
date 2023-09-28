@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.ProBuilder.MeshOperations;
 
-public class ThirdPersonMovement : MonoBehaviour
+public class PlayerMovement : MonoBehaviour
 {
     public CharacterController controller;
     public Transform cam;
