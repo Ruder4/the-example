@@ -10,7 +10,7 @@ public class Patrol : MonoBehaviour
     private bool hasTimeRemaining = true;
 
 
-    private void Update()
+    private void FixedUpdate()
     {
         if (hasTimeRemaining == true)
         {
