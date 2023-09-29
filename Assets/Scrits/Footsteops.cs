@@ -2,68 +2,34 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Footsteops : MonoBehaviour
+public class footsteps : MonoBehaviour
 {
-    public GameObject footstep;
+    ThirdPersonMovement thirdPersonMovement;
+    public AudioSource footstepsSound, sprintSound;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
-        footstep.SetActive(false);
+        thirdPersonMovement = GameObject.Find("ThirdPersonPlayer").GetComponent<ThirdPersonMovement>();
     }
-
-    // Update is called once per frame
     void Update()
     {
-        if(Input.GetKey("w"))
+        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D))
         {
-            footsteps();
+            if (thirdPersonMovement.speed >= 50)
+            {
+                footstepsSound.enabled = false;
+                sprintSound.enabled = true;
+            }
+            else
+            {
+                footstepsSound.enabled = true;
+                sprintSound.enabled = false;
+            }
         }
-
-        if(Input.GetKeyDown("s"))
+        else
         {
-            footsteps();
+            footstepsSound.enabled = false;
+            sprintSound.enabled = false;
         }
-
-        if(Input.GetKeyDown("a"))
-        {
-            footsteps();
-        }
-
-        if(Input.GetKeyDown("d"))
-        {
-            footsteps();
-        }
-
-        if(Input.GetKeyUp("w"))
-        {
-            StopFootsteps();
-        }
-
-        if(Input.GetKeyUp("s"))
-        {
-            StopFootsteps();
-        }
-
-        if(Input.GetKeyUp("a"))
-        {
-            StopFootsteps();
-        }
-
-        if(Input.GetKeyUp("d"))
-        {
-            StopFootsteps();
-        }
-
-    }
-
-    void footsteps()
-    {
-        footstep.SetActive(true);
-    }
-
-    void StopFootsteps()
-    {
-        footstep.SetActive(false);
     }
 }

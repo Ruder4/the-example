@@ -11,7 +11,7 @@ public class Kill : MonoBehaviour
         {
             if (other.gameObject.tag == "enemy")
             {
-                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+            SceneManager.LoadScene("Game Over");
             }
         }
     }
